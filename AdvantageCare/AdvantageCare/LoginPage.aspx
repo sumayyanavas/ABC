@@ -33,7 +33,7 @@ $(function () {
         $.ajax({
             type: "POST",
             url: "Login.aspx/Login",
-            data: "{ name: '" + name + "', age: " + Password + "}",
+            data: "{ name: '" + name + "', password: " + Password + "}",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
