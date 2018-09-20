@@ -20,7 +20,7 @@ Public Class ContactList
         gvContacts.DataSource = dummy
         gvContacts.DataBind()
     End Sub
-
+    <System.Web.Services.WebMethod()>
     Public Shared Function GetContacts() As String
         Dim query As String = "SELECT Id, username, address,phone FROM Contacts"
         Dim cmd As New SqlCommand(query)
