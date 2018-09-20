@@ -89,7 +89,7 @@
         if (contacts.length > 0) {
             $.each(contacts, function () {
                 var contact = $(this);
-                AppendRow(row, $(this).find("Id").text(), $(this).find("username").text(), $(this).find("address").text(), $(this).find("phone").text())
+                AppendRow(row, $(this).find("Id").text(), $(this).find("name").text(), $(this).find("address").text(), $(this).find("phone").text())
                 row = $("[id*=gvContacts] tr:last-child").clone(true);
             });
         } else {
@@ -99,13 +99,13 @@
         }
     }
  
-    function AppendRow(row, Id, username, address, phone) {
+    function AppendRow(row, Id, name, address, phone) {
         //Bind Id.
         $(".Id", row).find("span").html(Id);
  
         //Bind Name.
-        $(".name", row).find("span").html(username);
-        $(".name", row).find("input").val(username);
+        $(".name", row).find("span").html(name);
+        $(".name", row).find("input").val(name);
  
         //Bind Address.
         $(".address", row).find("span").html(address);
@@ -128,7 +128,7 @@
         $.ajax({
             type: "POST",
             url: "ContactList.aspx/InsertContact",
-            data: '{name: "' + txtName.val() + '", address: "' + txtCountry.val() + '", phone: "' + txtPhone.val() + '" }',
+            data: '{name: "' + txtName.val() + '", address: "' + txtAddress.val() + '", phone: "' + txtPhone.val() + '" }',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
@@ -177,9 +177,9 @@
         $(this).hide();
 
         var Id = row.find(".Id").find("span").html();
-        var name = row.find(".Name").find("span").html();
-        var address = row.find(".Address").find("span").html();
-        var phone = row.find(".Phone").find("span").html();
+        var name = row.find(".name").find("span").html();
+        var address = row.find(".address").find("span").html();
+        var phone = row.find(".phone").find("span").html();
         $.ajax({
             type: "POST",
             url: "ContactList.aspx/UpdateContact",

@@ -22,7 +22,7 @@ Public Class ContactList
     End Sub
     <System.Web.Services.WebMethod()>
     Public Shared Function GetContacts() As String
-        Dim query As String = "SELECT Id, username, address,phone FROM Contacts"
+        Dim query As String = "SELECT Id,name,address,phone FROM ContactList"
         Dim cmd As New SqlCommand(query)
         Dim constr As String = ConfigurationManager.ConnectionStrings("PharmacyDB").ConnectionString
         Using con As New SqlConnection(constr)
@@ -36,10 +36,11 @@ Public Class ContactList
             End Using
         End Using
     End Function
+    <System.Web.Services.WebMethod()>
     Public Shared Function InsertContact(name As String, address As String, phone As String) As Integer
         Dim constr As String = ConfigurationManager.ConnectionStrings("PharmacyDB").ConnectionString
         Using con As New SqlConnection(constr)
-            Using cmd As New SqlCommand("INSERT INTO Contacts VALUES(@Name, @Address, @Phone) SELECT SCOPE_IDENTITY()")
+            Using cmd As New SqlCommand("INSERT INTO ContactList VALUES(@Name, @Address, @Phone) SELECT SCOPE_IDENTITY()")
                 cmd.Parameters.AddWithValue("@Name", name)
                 cmd.Parameters.AddWithValue("@Address", address)
                 cmd.Parameters.AddWithValue("@Phone", phone)
@@ -47,7 +48,7 @@ Public Class ContactList
                 con.Open()
                 Dim Id As Integer = Convert.ToInt32(cmd.ExecuteScalar())
                 con.Close()
-                Return ID
+                Return Id
             End Using
         End Using
     End Function
@@ -56,8 +57,10 @@ Public Class ContactList
     Public Shared Sub UpdateContact(Id As Integer, name As String, address As String, phone As String)
         Dim constr As String = ConfigurationManager.ConnectionStrings("PharmacyDB").ConnectionString
         Using con As New SqlConnection(constr)
-            Using cmd As New SqlCommand("UPDATE Contacts SET Name = @Name, Country = @Country WHERE CustomerId = @CustomerId")
-                cmd.Parameters.AddWithValue("@CustomerId", Id)
+            Using cmd As New SqlCommand("UPDATE ContactList SET name = @Name, address = @Address, phone = @Phone WHERE Id = @Id")
+
+                cmd.Parameters.AddWithValue("@Id", Id)
+                cmd.Parameters.AddWithValue("@Name", name)
                 cmd.Parameters.AddWithValue("@Address", address)
                 cmd.Parameters.AddWithValue("@Phone", phone)
                 cmd.Connection = con
@@ -72,7 +75,7 @@ Public Class ContactList
     Public Shared Sub DeleteContact(Id As Integer)
         Dim constr As String = ConfigurationManager.ConnectionStrings("PharmacyDB").ConnectionString
         Using con As New SqlConnection(constr)
-            Using cmd As New SqlCommand("DELETE FROM Contacts WHERE Id = @Id")
+            Using cmd As New SqlCommand("DELETE FROM ContactList WHERE Id = @Id")
                 cmd.Parameters.AddWithValue("@Id", Id)
                 cmd.Connection = con
                 con.Open()
